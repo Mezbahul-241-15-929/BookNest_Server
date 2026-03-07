@@ -11,7 +11,6 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.1jlx3rd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 
-//const uri = "mongodb+srv://mezbahul:2A3NW9ZuLLtGXaGu@cluster0.1jlx3rd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 
 const client = new MongoClient(uri, {
@@ -37,7 +36,7 @@ async function run() {
         await client.connect();
 
         //Jobs api
-        const userCollection = client.db('template').collection('users');
+        const userCollection = client.db('BookNest').collection('users');
 
         // User related APIs
 
@@ -135,6 +134,41 @@ async function run() {
             const result = await userCollection.updateOne(filter, updatedDoc)
             res.send(result);
         })
+
+        // Book collection..........................................................
+
+        const bookCollection = client.db('BookNest').collection('books');
+
+
+        //post api:
+        app.post('/books', async (req, res) => {
+            const book = req.body;
+            const result = await bookCollection.insertOne(book);
+            res.send(result);
+        });
+
+        //get api:
+        app.get('/books', async (req, res) => {
+            const result = await bookCollection.find().toArray();
+            res.send(result);
+        });
+
+        //get api with id:
+        app.get('/books/:id', async (req, res) => {
+            const id = req.params.id;
+            const book = await bookCollection.findOne({ _id: new ObjectId(id) });
+            res.send(book);
+        });
+
+
+
+
+
+
+
+
+
+
 
 
 
