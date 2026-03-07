@@ -154,12 +154,54 @@ async function run() {
         });
 
         //get api with id:
-        app.get('/books/:id', async (req, res) => {
+        app.get('/book/:id', async (req, res) => {
             const id = req.params.id;
             const book = await bookCollection.findOne({ _id: new ObjectId(id) });
             res.send(book);
         });
 
+        // Upvote
+        app.patch('/books/upvote/:id', async (req, res) => {
+            const id = req.params.id;
+
+            const result = await bookCollection.updateOne(
+                { _id: new ObjectId(id) },
+                { $inc: { upvote: 1 } }
+            );
+
+            res.send(result);
+        });
+
+        //Add Review
+        app.post('/reviews', async (req, res) => {
+            const review = req.body;
+            const result = await reviewCollection.insertOne(review);
+            res.send(result);
+        });
+
+        //Get Reviews
+        app.get('/reviews/:bookId', async (req, res) => {
+            const bookId = req.params.bookId;
+            const result = await reviewCollection.find({ bookId }).toArray();
+            res.send(result);
+        });
+
+        //delete review
+        app.delete('/reviews/:id', async (req, res) => {
+            const id = req.params.id;
+            const result = await reviewCollection.deleteOne({ _id: new ObjectId(id) });
+            res.send(result);
+        });
+
+        // One review per user per book
+        const existingReview = await reviewCollection.findOne({
+            bookId: review.bookId,
+            user_email: review.user_email
+        });
+
+        if (existingReview) {
+            return res.send({ message: "You already reviewed this book" });
+        }
 
 
 
