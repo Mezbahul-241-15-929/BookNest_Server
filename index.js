@@ -226,7 +226,7 @@ async function run() {
             }
         });
 
-        // Upvote Book
+        // Upvote Book....................................................................................
         app.patch("/upvote/:id", async (req, res) => {
             try {
                 const id = req.params.id;
@@ -255,7 +255,7 @@ async function run() {
             }
         });
 
-        // Add Review (One Review per User)
+        // Add Review (One Review per User)...........................................................
         app.post("/reviews", async (req, res) => {
             try {
                 const review = req.body;
@@ -328,8 +328,6 @@ async function run() {
                 res.status(500).send({ message: "Server error" });
             }
         });
-
-        
 
 
         // GET http://localhost:3000/mybooks?email=mm@gmail.com
