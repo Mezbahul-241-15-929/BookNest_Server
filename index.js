@@ -329,73 +329,7 @@ async function run() {
             }
         });
 
-        //get api with id:
-        // app.get('/book/:id', async (req, res) => {
-        //     const id = req.params.id;
-        //     const book = await bookCollection.findOne({ _id: new ObjectId(id) });
-        //     res.send(book);
-        // });
-
-        // // Upvote
-        // app.patch('/books/upvote/:id', async (req, res) => {
-        //     const id = req.params.id;
-
-        //     const result = await bookCollection.updateOne(
-        //         { _id: new ObjectId(id) },
-        //         { $inc: { upvote: 1 } }
-        //     );
-
-        //     res.send(result);
-        // });
-
-        // //Add Review
-        // app.post('/reviews', async (req, res) => {
-        //     const review = req.body;
-        //     const result = await reviewCollection.insertOne(review);
-        //     res.send(result);
-        // });
-
-        // //Get Reviews
-        // app.get('/reviews/:bookId', async (req, res) => {
-        //     const bookId = req.params.bookId;
-        //     const result = await reviewCollection.find({ bookId }).toArray();
-        //     res.send(result);
-        // });
-
-        // //delete review
-        // app.delete('/reviews/:id', async (req, res) => {
-        //     const id = req.params.id;
-        //     const result = await reviewCollection.deleteOne({ _id: new ObjectId(id) });
-        //     res.send(result);
-        // });
-
-        // // One review per user per book
-        // const existingReview = await reviewCollection.findOne({
-        //     bookId: review.bookId,
-        //     user_email: review.user_email
-        // });
-
-        // if (existingReview) {
-        //     return res.send({ message: "You already reviewed this book" });
-        // }
-
-
-
-        // JWT middleware to verify token
-        // const verifyToken = (req, res, next) => {
-        //     const authHeader = req.headers.authorization;
-        //     if (!authHeader) return res.status(401).send({ error: "Unauthorized" });
-
-        //     const token = authHeader.split(" ")[1];
-        //     jwt.verify(token, process.env.JWT_SECRET || "secretkey", (err, decoded) => {
-        //         if (err) return res.status(403).send({ error: "Forbidden" });
-        //         req.decoded_email = decoded.email;
-        //         next();
-        //     });
-        // };
-
-        // MyBooks route
-
+        
 
 
         // GET http://localhost:3000/mybooks?email=mm@gmail.com
@@ -417,17 +351,6 @@ async function run() {
                 res.status(500).json({ message: 'Server error' });
             }
         });
-
-
-
-
-
-
-
-
-
-
-
 
 
         // Send a ping to confirm a successful connection
