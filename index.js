@@ -138,6 +138,7 @@ async function run() {
         // Book collection..........................................................
 
         const bookCollection = client.db('BookNest').collection('books');
+        const reviewCollection = client.db('BookNest').collection('reviews');
 
 
         //post api:
@@ -151,6 +152,181 @@ async function run() {
         app.get('/books', async (req, res) => {
             const result = await bookCollection.find().toArray();
             res.send(result);
+        });
+
+        // get with id: for book details
+        app.get("/books/:id", async (req, res) => {
+            try {
+                const id = req.params.id;
+
+                const book = await bookCollection.findOne({
+                    _id: new ObjectId(id)
+                });
+
+                res.send(book);
+            } catch (error) {
+                res.status(500).send({ message: "Server error" });
+            }
+        });
+
+        //delete book
+        // DELETE /books/:id
+        app.delete("/books/:id", async (req, res) => {
+            try {
+                const { id } = req.params;
+
+                if (!id) {
+                    return res.status(400).json({ message: "Book ID is required" });
+                }
+
+                const result = await bookCollection.deleteOne({ _id: new ObjectId(id) });
+
+                if (result.deletedCount === 0) {
+                    return res.status(404).json({ message: "Book not found" });
+                }
+
+                res.json({ deletedCount: result.deletedCount });
+            } catch (error) {
+                console.error(error);
+                res.status(500).json({ message: "Server error" });
+            }
+        });
+
+        // put or update book api:
+        // PUT /books/:id
+        app.put("/books/:id", async (req, res) => {
+            try {
+                const { id } = req.params;
+                const updatedBook = req.body;
+
+                // Remove _id from body if it exists
+                delete updatedBook._id;
+
+                // Find the existing book
+                const existingBook = await bookCollection.findOne({ _id: new ObjectId(id) });
+                if (!existingBook) {
+                    return res.status(404).json({ message: "Book not found" });
+                }
+
+                // Only owner can update
+                if (existingBook.user_email !== updatedBook.user_email) {
+                    return res.status(403).json({ message: "Forbidden: You can only update your own book" });
+                }
+
+                // Update the book
+                const result = await bookCollection.updateOne(
+                    { _id: new ObjectId(id) },
+                    { $set: updatedBook }
+                );
+
+                res.json(result);
+            } catch (error) {
+                console.error("Update Book Error:", error);
+                res.status(500).json({ message: "Server error" });
+            }
+        });
+
+        // Upvote Book
+        app.patch("/upvote/:id", async (req, res) => {
+            try {
+                const id = req.params.id;
+                const { user_email } = req.body;
+
+                const book = await bookCollection.findOne({
+                    _id: new ObjectId(id)
+                });
+
+                if (book.user_email === user_email) {
+                    return res.send({
+                        message: "You cannot upvote your own book"
+                    });
+                }
+
+                const result = await bookCollection.updateOne(
+                    { _id: new ObjectId(id) },
+                    {
+                        $inc: { upvote: 1 }
+                    }
+                );
+
+                res.send(result);
+            } catch (error) {
+                res.status(500).send({ message: "Server error" });
+            }
+        });
+
+        // Add Review (One Review per User)
+        app.post("/reviews", async (req, res) => {
+            try {
+                const review = req.body;
+
+                const existingReview = await reviewCollection.findOne({
+                    bookId: review.bookId,
+                    user_email: review.user_email
+                });
+
+                if (existingReview) {
+                    return res.send({
+                        message: "You already reviewed this book"
+                    });
+                }
+
+                const result = await reviewCollection.insertOne(review);
+
+                res.send(result);
+            } catch (error) {
+                res.status(500).send({ message: "Server error" });
+            }
+        });
+
+        // Get Reviews for Book
+        app.get("/reviews/:bookId", async (req, res) => {
+            try {
+                const bookId = req.params.bookId;
+
+                const reviews = await reviewCollection
+                    .find({ bookId })
+                    .toArray();
+
+                res.send(reviews);
+            } catch (error) {
+                res.status(500).send({ message: "Server error" });
+            }
+        });
+
+        // Delete Review
+        app.delete("/reviews/:id", async (req, res) => {
+            try {
+                const id = req.params.id;
+
+                const result = await reviewCollection.deleteOne({
+                    _id: new ObjectId(id)
+                });
+
+                res.send(result);
+            } catch (error) {
+                res.status(500).send({ message: "Server error" });
+            }
+        });
+
+
+        // edit review
+        app.patch("/reviews/:id", async (req, res) => {
+            try {
+                const id = req.params.id;
+                const { review } = req.body;
+
+                const result = await reviewCollection.updateOne(
+                    { _id: new ObjectId(id) },
+                    {
+                        $set: { review }
+                    }
+                );
+
+                res.send(result);
+            } catch (error) {
+                res.status(500).send({ message: "Server error" });
+            }
         });
 
         //get api with id:
