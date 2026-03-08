@@ -22,13 +22,7 @@ const client = new MongoClient(uri, {
 });
 
 
-const verifyToken = (req, res, next) => {
 
-    // Normally decoded from JWT
-    req.decoded_email = req.query.email;
-
-    next();
-};
 
 async function run() {
     try {
@@ -391,7 +385,4 @@ app.get('/data', (req, res) => {
     res.send('this is data')
 })
 
-
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
+module.exports = app;

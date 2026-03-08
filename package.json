@@ -1,5 +1,5 @@
 {
-  "name": "coffee-store-resources",
+  "name": "BookNest_Server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ProgrammingHero1/coffee-store-resources.git"
+    "url": "git+https://github.com/Mezbahul-241-15-929/BookNest_Server.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ProgrammingHero1/coffee-store-resources/issues"
+    "url": "https://github.com/Mezbahul-241-15-929/BookNest_Server/issues"
   },
-  "homepage": "https://github.com/ProgrammingHero1/coffee-store-resources#readme",
+  "homepage": "https://github.com/Mezbahul-241-15-929/BookNest_Server#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
