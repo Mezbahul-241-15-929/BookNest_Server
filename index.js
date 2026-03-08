@@ -350,6 +350,18 @@ async function run() {
             }
         });
 
+        app.get("/popular-books", async (req, res) => {
+
+            const result = await bookCollection
+                .find()
+                .sort({ upvotes: -1 })
+                .limit(9)
+                .toArray();
+
+            res.send(result);
+
+        });
+
 
         // Send a ping to confirm a successful connection
         //await client.db("admin").command({ ping: 1 });
