@@ -135,6 +135,13 @@ async function run() {
             res.send(result);
         })
 
+
+        app.get("/my-books/:email", async (req, res) => {
+            const email = req.params.email;
+            const result = await bookCollection.find({ user_email: email }).toArray();
+            res.send(result);
+        });
+
         // Book collection..........................................................
 
         const bookCollection = client.db('BookNest').collection('books');
@@ -354,7 +361,7 @@ async function run() {
 
             const result = await bookCollection
                 .find()
-                .sort({ upvotes: -1 })
+                .sort({ upvote: -1 }) // fixed here
                 .limit(9)
                 .toArray();
 
