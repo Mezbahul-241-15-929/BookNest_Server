@@ -1,23 +1,16 @@
 {
-  "name": "BookNest_Server",
+  "name": "coffee-store-resources",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Mezbahul-241-15-929/BookNest_Server.git"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Mezbahul-241-15-929/BookNest_Server/issues"
-  },
-  "homepage": "https://github.com/Mezbahul-241-15-929/BookNest_Server#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
@@ -26,3 +19,4 @@
     "sweetalert2": "^11.23.0"
   }
 }
+
