@@ -53,10 +53,6 @@ The server is designed with scalability, simplicity, and maintainability in mind
 
 
 
-## 🔗 Frontend : https://github.com/Mezbahul-241-15-929/BookNest_Client
-
-React Frontend communicates with this server through REST APIs.
-
 ---
 
 ## 👨‍💻 Created By
