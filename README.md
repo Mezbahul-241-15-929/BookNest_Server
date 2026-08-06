@@ -3,6 +3,13 @@
 BookNest Server is the backend API service that powers the BookNest platform. It manages authentication validation, book data storage, user-specific collections, and CRUD operations using MongoDB and Express.js.
 
 ---
+Fully Responsive for Mobile, Tablet & Desktop
+
+Client site: https://github.com/Mezbahul-241-15-929/BookNest_Client
+
+Server site: https://github.com/Mezbahul-241-15-929/BookNest_Server
+
+🌐 Live Site: https://booknest-be304.web.app/
 
 ## 📖 Project Description
 
